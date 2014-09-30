@@ -1342,10 +1342,9 @@ font-style: italic;
 text-align: center;
 }
 
-/* ----- MOBILE STYLES ----- */
+/* ----- MOBILE STYLES - 7/23/14 - gfh ----- */
 
-.mbl-neighborhood-mir,
-.mbl-neighborhood-img {
+.mbl-neighborhood-mir {
 	display: none;
 }
 
