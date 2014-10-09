@@ -87,7 +87,7 @@ var google_conversion_value = 0;
 
 <td width="225" rowspan="3"><strong>Stay Informed!</strong><br />
 
-  Sign up for the newsletter using our private and secure system.</td>
+  Don't miss out on your dream home! Sign up for our newsletter for all our latest offerings.</td>
 
 </tr>
 
@@ -102,7 +102,7 @@ var google_conversion_value = 0;
 
 <td></td>
 
-<td><input type="submit" value=" Subscribe " /></td>
+<td><input type="submit" value=" Sign Up " /></td>
 
 </tr>
 

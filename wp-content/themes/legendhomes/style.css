@@ -1115,8 +1115,8 @@ border-radius: 15px;
 margin-bottom: 12px;
 }
 #wpcf7-smc {
-background-color: #fff;
-border: 2px dotted #999;
+background-color: #C4C4C4;
+/*border: 2px dotted #999;*/
 border-radius: 15px;
 margin-bottom: 0px;
 margin-top: 20px;
@@ -1342,7 +1342,7 @@ font-style: italic;
 text-align: center;
 }
 
-/* ----- MOBILE STYLES ----- */
+/* ----- MOBILE STYLES - 7/23/14 - gfh ----- */
 
 .mbl-neighborhood-mir,
 .mbl-neighborhood-img {
