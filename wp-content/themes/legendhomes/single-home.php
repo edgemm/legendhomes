@@ -34,9 +34,17 @@ $category = get_the_category();
 
 <!--End Sold Banner And Home Image smc-->
 
-				<?php $desc = get_post_meta($post->ID,'home-image-description',true);
-						if ($desc !== '') { echo '<p class="wp-caption-text">'.$desc.'</p>';}
-						 ?>
+<?php
+
+$desc = get_post_meta($post->ID,'home-image-description',true);
+
+if ($desc !== '') echo '<p class="wp-caption-text">'.$desc.'</p>';
+
+// display contact button if home hasn't sold
+if( !get_field('show_sold_banner') ) { ?>
+		 <a href="/about-us/contact-us/" class="strx-zurb-css3-awesome orange large" style="margin: 10px 0 15px;" title="Contact Agent" onclick="_gaq.push(['_trackEvent', 'MIR contact-agent click']);">Contact an Agent About This Home</a>
+<?php } ?>
+		
 <?php the_content() ?>
 
 
