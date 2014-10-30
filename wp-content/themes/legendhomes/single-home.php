@@ -26,7 +26,7 @@ $category = get_the_category();
 <?php $img = get_post_meta($post->ID,'home-image',true); if ($img !== '') { ?>
 			<div class="home-sold" style="background-image:url(<?php echo $img; ?>)" >
 
-<?php if(get_field('show_sold_banner')) { ?>
+<?php if( get_field('show_sold_banner') || stripos( get_field( 'homepage-price' ), "SOLD" ) === false ) { ?>
 <img src="/wp-content/themes/legendhomes/images/LH-SoldBanner.png">
 <?php } ?>
             </div>
