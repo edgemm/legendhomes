@@ -24,6 +24,6 @@
 
 <?php wp_footer() ?>
 
-
+</div><!-- /.site-container -->
 </body>
 </html>

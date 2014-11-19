@@ -7,6 +7,12 @@ function my_jquery_enqueue() {
    wp_enqueue_script('jquery');
 }
 
+// general site-wide scripts
+function lh_scripts() {
+   wp_enqueue_script( 'lh-scripts', get_stylesheet_directory_uri() . '/js/scripts.js', array(), '1.0.0', true );
+}
+add_action( 'wp_enqueue_scripts', 'lh_scripts' );
+
 // Wordpress: Removes the /category/ from the Category URL structure
 add_filter('user_trailingslashit', 'remcat_function');
 function remcat_function($link) {
@@ -149,33 +155,6 @@ function sidebar_excerpt(){
 	echo implode(' ',array_slice($acontent,0,10)).( count($acontent) != count($content) ? '&hellip;' : '' );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //in_category but traverses down to child cats
 function in_cat_or_kitten($cats, $_post = null) {
 	foreach ( (array) $cats as $cat ) {
@@ -186,7 +165,6 @@ function in_cat_or_kitten($cats, $_post = null) {
 	}
 	return false;
 }
-
 
 function get_child_cats($thecat = '') {
 	if (get_depth() == 1) {
@@ -285,7 +263,6 @@ function lh_footernav() {
 	echo $menu;
 }
 
-
 // Produces a list of pages in the header without whitespace
 function sandbox_globalnav() {
 	if ( $menu = str_replace( array( "\r", "\n", "\t" ), '', wp_list_categories('title_li=&order_by=ID&order=ASC&echo=0&depth=2&exclude=1&use_desc_for_title=0') ) )
@@ -299,9 +276,8 @@ function footernav() {
 		$menu = '<ul>' . $menu . '</ul>';
 	//$menu = '<div id="footnav">' . $menu . "</div>\n";
 	echo apply_filters( 'globalnav_menu', $menu ); // Filter to override default globalnav: globalnav_menu
-
-
 }
+
 // Gets the Images for the Galleries under under the Community > Gallery sections
 function getGall($dir) {
 		# array to hold return value 
@@ -324,13 +300,6 @@ function getGall($dir) {
 		$d->close();
 		return $retval;
 }
-
-
-
-
-
-
-
 
 // Generates semantic classes for BODY element
 function sandbox_body_class( $print = true ) {
@@ -843,8 +812,6 @@ if (300000) {
 </div>
 </noscript>';
 }
-
-
 add_shortcode('lead-form1', 'lf1');
 
 

@@ -4,10 +4,17 @@
 .cvs
 *.bak
 *.swp
+.htaccess
 Thumbs.db
+
+# legendhomes specific
+uploads
+wp-content/gallery
 
 # wordpress specific
 wp-config.php
+wp-content/plugins
+wp-content/uploads
 wp-content/themes/twentyten
 wp-content/themes/twentyeleven
 wp-content/themes/twentytwelve

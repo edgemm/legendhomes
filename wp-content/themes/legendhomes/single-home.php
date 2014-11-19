@@ -1,7 +1,7 @@
 <?php get_header() ?>
 
 <?php //Determines the parrent page to pull in Heading/Sub Heading
-		 if (get_community() == "edgewater") {$headID = 4375;}
+	if (get_community() == "edgewater") {$headID = 4375;}
 else if (get_community() == "legend-at-villebois") {$headID = 4381;}
 else if (get_community() == "village-at-orenco") {$headID = 4468;}
 else if (get_community() == "walnut-creek") {$headID = 4502;}
@@ -40,10 +40,26 @@ $desc = get_post_meta($post->ID,'home-image-description',true);
 
 if ($desc !== '') echo '<p class="wp-caption-text">'.$desc.'</p>';
 
-// display contact button if home hasn't sold
+// display contact button if...
+// 1. home hasn't sold
+// 2. not a home plan
+// 3. not a testvariation template
 $price = get_field( 'homepage-price' );
-if( stripos( $price, "sold" ) === false ) { ?>
-		 <a data-test="<?php echo $price; ?>" href="/about-us/contact-us/" class="strx-zurb-css3-awesome orange large" style="margin: 10px 0 15px;" title="Contact Agent" onclick="_gaq.push(['_trackEvent', 'MIR contact-agent click']);">Contact an Agent About This Home</a>
+
+// check categories slugs for "plan" string
+$categories = get_the_category();
+$cats = '';
+if( $categories ) :
+	foreach( $categories as $c ) :
+		$cats .= $c->slug . " ";
+	endforeach;
+endif;
+
+$plan = (boolean) false;
+if ( strpos( $cats, "plans" ) ) $plan = true;
+
+if( stripos( $price, "sold" ) === false && $plan == false && !isset( $_GET['t'] ) ) { ?>
+	<a data-test="<?php echo $price; ?>" href="/about-us/contact-us/" class="strx-zurb-css3-awesome orange large" style="margin: 10px 0 0;" title="Contact Agent" onclick="_gaq.push(['_trackEvent', 'Contact Agent', 'MIR contact-agent click']);">Contact an Agent About This Home</a>
 <?php } ?>
 		
 <?php the_content() ?>
@@ -55,7 +71,7 @@ $et_address = isset($custom["google-map-address"][0]) ? $custom["google-map-addr
 			?>
             
             <?php // Outputs a map if 'google-map' is set
-					  $gmap = get_post_meta($post->ID,'google-map-address',true);
+				 $gmap = get_post_meta($post->ID,'google-map-address',true);
 						if ($gmap != "") { ?>
                         
 							
@@ -87,16 +103,16 @@ $et_address = isset($custom["google-map-address"][0]) ? $custom["google-map-addr
          if (status == 'OK' && results.length > 0) {         
             var latlng = new google.maps.LatLng(results[0].geometry.location.b,results[0].geometry.location.c);
 			var myOptions = {
-			   zoom: 12,
-			   center: results[0].geometry.location, 
-			   mapTypeId: google.maps.MapTypeId.ROADMAP
+		  zoom: 12,
+		  center: results[0].geometry.location, 
+		  mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			
 			map = new google.maps.Map(document.getElementById("gmaps-container"), myOptions);
-			   var marker = new google.maps.Marker({
-			   position: results[0].geometry.location,
-			   map: map,
-			   title:""
+		  var marker = new google.maps.Marker({
+		  position: results[0].geometry.location,
+		  map: map,
+		  title:""
 			});
 
             var contentString = '<div id="content">'+
@@ -140,6 +156,24 @@ $et_address = isset($custom["google-map-address"][0]) ? $custom["google-map-addr
 
 	<div id="sidebar">	
 	<?php  get_sidebar('find-your-home');  ?>
+	</div>
+	
+	<div class="modal-container" data-modalID="contact-agent">
+		<div class="modal-content modal-contact-agent">
+			<a href="#close" title="Close" class="modal-close">X</a>
+			<div class="modal-alpha">
+				<?php echo do_shortcode( '[contact-form-7 id="5971" title="Contact Agent"]' ); ?>
+			</div>
+			<div class="modal-omega">
+				<?php
+				if( get_field( 'lh-home-contact-agent-thanks' ) ) :
+					echo get_field( 'lh-home-contact-agent-thanks' );
+				else :
+					echo 'Thank you for contacting us! An agent will be in touch with you as soon as possible.';
+				endif;
+				?>
+			</div>
+		</div>
 	</div>
 
 <!-- Google Code for view a home Conversion Page -->
