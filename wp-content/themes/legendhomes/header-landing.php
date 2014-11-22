@@ -14,7 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="<?php bloginfo('template_directory') ?>/css/ie7.css" />
 	<![endif]-->
 	
-	<?php echo get_field( 'header_tracking' ); ?>
+	<?php // google a/b test code if not home page
+		if( !is_home() ) echo get_field( 'header_tracking' );
+	?>
 
 <?php wp_head(); // For plugins ?>
 	<!--
