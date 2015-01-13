@@ -40,45 +40,20 @@ $desc = get_post_meta($post->ID,'home-image-description',true);
 
 if ($desc !== '') echo '<p class="wp-caption-text">'.$desc.'</p>';
 
-// display contact button if...
-// 1. home hasn't sold
-// 2. not a home plan
-// 3. not a testvariation template
 $price = get_field( 'homepage-price' );
 
-// check categories slugs for "plan" string
-$categories = get_the_category();
-$cats = '';
-if( $categories ) :
-	foreach( $categories as $c ) :
-		$cats .= $c->slug . " ";
-	endforeach;
-endif;
+?>
 
-$plan = (boolean) false;
-if ( strpos( $cats, "plans" ) ) $plan = true;
+<?php the_content(); ?>
 
-if( stripos( $price, "sold" ) === false && $plan == false && !isset( $_GET['t'] ) ) { ?>
-	<a data-test="<?php echo $price; ?>" href="/about-us/contact-us/" class="strx-zurb-css3-awesome orange large" style="margin: 10px 0 0;" title="Contact Agent" onclick="_gaq.push(['_trackEvent', 'Contact Agent', 'MIR contact-agent click']);">Contact an Agent About This Home</a>
-<?php } ?>
-		
-<?php the_content() ?>
-
-
-<?php   
+<?php
 $custom = get_post_custom($post->ID);
 $et_address = isset($custom["google-map-address"][0]) ? $custom["google-map-address"][0] : '270 Park Ave. New York';
 			?>
-            
+
             <?php // Outputs a map if 'google-map' is set
 				 $gmap = get_post_meta($post->ID,'google-map-address',true);
 						if ($gmap != "") { ?>
-                        
-							
-							
-					
-	        
-                        
                         <div id="gmaps-border">
       <div id="gmaps-container"></div>
    </div> <!-- end #gmaps-border -->

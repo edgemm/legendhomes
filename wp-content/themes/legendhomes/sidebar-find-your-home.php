@@ -23,9 +23,8 @@ endif;
 
 <div id="primary" class="sidebar">
 	<ul>
-		<?php if ( isset( $_GET['t'] ) ) { ?>
-		<li>
-			<a data-test="<?php echo $price; ?>" href="/about-us/contact-us/" class="strx-zurb-css3-awesome orange large btn-sidebar trig-modal modal-contact-agent" data-modal="contact-agent" data-eLoc="<?php echo $comm_email_local; ?>" data-eDom="<?php echo $comm_email_domain; ?>" style="margin: 10px 0 15px;" title="Contact Agent" onclick="_gaq.push(['_trackEvent', 'Contact Agent', 'MIR contact-agent click']);">Contact an Agent or Schedule a Tour</a>
+		<li class="sidebar-contact-agent">
+			<a href="/about-us/contact-us/" class="strx-zurb-css3-awesome orange large btn-sidebar trig-modal modal-contact-agent" data-modal="contact-agent" data-eLoc="<?php echo $comm_email_local; ?>" data-eDom="<?php echo $comm_email_domain; ?>" style="margin: 10px 0 15px;" title="Contact Agent" onclick="_gaq.push(['_trackEvent', 'Contact Agent', 'MIR contact-agent click']);">Contact an Agent or Schedule a Tour</a>
 			<script type="text/javascript">				
 				// hide modal first page, show back page then close
 				function modalRevealOmega() {
@@ -37,7 +36,6 @@ endif;
 				}
 			</script>
 		</li>
-		<?php } ?>
 		<?php if ($community == "move-in-ready" || $community == ""){ ?>
 		<li id="categories">
 			<h3>Communities</h3>
@@ -60,13 +58,6 @@ endif;
 				<li class="cat-item cat-item-15"><a href="<?php echo $community_url; ?>homes/" title="Move-In Ready Homes">Move-In Ready Homes</a></li>
 			</ul>
 		<?php } ?>
-
-	<?php if ( !isset( $_GET['t'] ) ) { ?>
-        <div id="wpcf7-smc">
-        <h2>Contact Agent</h2>
-		       <?php echo do_shortcode( '[contact-form-7 id="5971" title="Contact Agent"]' ); ?>
-</div>
-	<?php } ?>
 			<li class="singlenew">
 				<h4 class="sidenew">Energy Bill Guarantee</h4>
 					<div class="singlenewp"><p>Legend Homes has created a better investment for you now...</div>
