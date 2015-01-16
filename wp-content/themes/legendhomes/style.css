@@ -614,6 +614,9 @@ text-indent: 0;
 text-decoration: none;
 border: 0px;
 }
+.home-desc {
+	margin: -12px 0 20px;
+}
 #mirs {
 display: block;
 border-top: 1px solid #d1e4c0;

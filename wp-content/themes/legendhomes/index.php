@@ -17,7 +17,12 @@ foreach ($options as $value) {
 				           <?php the_uds_billboard('lh-home-slide-1'); ?>
 
 			</div>
-           </div> 
+           </div>
+	   <div class="home-desc">
+		<h2>New Home Builders in Oregon</h2>
+		<p>Legend Homes is committed to providing the best home value and the best home buying experience for the buyers of our new homes in Portland and across Oregon. Better plans, more standard features, a strong focus on energy conservation and efficiency and state-of-the art home building practices are what drive us to be the very best.</p> 
+		<p>Legend Home’s mission as new home builders is to be the leader in quality, value and community through integrity, innovation and pride. Legend provides homebuyers with the personalized service and attention they deserve as well as with new homes built to last through generations.</p>
+	   </div>
 			<div id="mirs-smc">
 			<h2>Move-In Ready Homes</h2>
 		<div id="mirslide">
