@@ -1,3 +1,5 @@
+        <?php include( locate_template( 'inc/modal-contact.php' ) ); ?>
+
 	<div id="footer">
 		<div id="footertop">
 			<div class="searchinput">

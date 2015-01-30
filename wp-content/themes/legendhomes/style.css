@@ -1481,7 +1481,7 @@ h3.video-heading a {
 
 .modal-alpha,
 .modal-alpha.complete + .modal-omega {
-    max-height: 300px;
+    max-height: 600px;
     visibility: visible;
     opacity: 1;
 }
