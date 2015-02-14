@@ -824,6 +824,49 @@ add_shortcode( 'wallvideos', 'vpwalls' );
 
 /* shortcode for vidoe tracking behind our walls playlist (end) */
 
+/* social media button shortcode */
+
+function shortcode_social_media( $atts ){
+
+   $social = array(); // store social media buttons
+   
+   // facebook
+   $fb = '<div class="fb-like" data-href="https://www.facebook.com/LegendHomes" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>';
+   array_push( $social, $fb );
+   
+   // twitter
+   $twtr = '<a href="https://twitter.com/legendhomes" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @legendhomes</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?\'http\':\'https\';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+\'://platform.twitter.com/widgets.js\';fjs.parentNode.insertBefore(js,fjs);}}(document, \'script\', \'twitter-wjs\');</script>';
+   array_push( $social, $twtr );
+
+   // youtube
+   $yt = '<script src="https://apis.google.com/js/platform.js"></script><div class="g-ytsubscribe" data-channel="LegendHomesPDX"></div>';
+   array_push( $social, $yt );
+   
+   // pinterest
+   $pin = '<a data-pin-do="buttonFollow" href="http://www.pinterest.com/legendhomes/">Legend Homes</a>
+<!-- Please call pinit.js only once per page -->
+<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>';
+   array_push( $social, $pin );
+   
+   // build list of buttons to be returned
+   $html = '<ul class="social-btns">';
+   
+   foreach( $social as $s ) :
+      $html .= '<li class="social-btn-item">';
+      $html .= $s;
+      $html .= '</li>';
+   endforeach;
+   
+   $html .= "</ul>";
+
+   return $html;
+
+}
+add_shortcode( 'social-media', 'shortcode_social_media' );
+
+/* end social media button shortcode */
+
 
 /* register widget areas */
 add_action( 'widgets_init', 'register_theme_sidebars' );

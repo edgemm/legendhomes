@@ -135,7 +135,7 @@ $et_address = isset($custom["google-map-address"][0]) ? $custom["google-map-addr
 	
 	<?php //include( locate_template( 'inc/modal-contact.php' ) ); ?>
 
-<!-- Google Code for view a home Conversion Page -->
+<!-- Google Code for MIR Home View Conversion Page -->
 <script type="text/javascript">
 /* <![CDATA[ */
 var google_conversion_id = 1034400106;
