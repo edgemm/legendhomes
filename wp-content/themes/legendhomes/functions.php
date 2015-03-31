@@ -7,9 +7,14 @@ function my_jquery_enqueue() {
    wp_enqueue_script('jquery');
 }
 
-// general site-wide scripts
+// load scripts
 function lh_scripts() {
-   wp_enqueue_script( 'lh-scripts', get_stylesheet_directory_uri() . '/js/scripts.js', array(), '1.0.0', true );
+   // jquery cookies
+   wp_enqueue_script( 'jquery-cookie', get_stylesheet_directory_uri() . '/js/jquery.cookie.js', array(), '1.4.1', true );
+
+   // general site-wide scripts
+   wp_enqueue_script( 'lh-scripts', get_stylesheet_directory_uri() . '/js/scripts.js', array(), '1.0.1', true );
+   
 }
 add_action( 'wp_enqueue_scripts', 'lh_scripts' );
 

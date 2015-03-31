@@ -57,4 +57,20 @@ function modalRevealOmega() {
 	}, 10000 );
 }
 
+
+// *** CONTACT FORM
+// auto-fill
+
+$( ".form-autoFill" ).each(function(){
+
+	var f = $(this).attr( "data-autoFill" );
+
+	if ( f ) {
+		var v = $.cookie( f );
+		if ( v ) $(this).val( v );
+	}
+
+});
+
+
 })(jQuery);

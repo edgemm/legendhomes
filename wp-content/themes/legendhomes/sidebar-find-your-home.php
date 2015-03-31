@@ -34,6 +34,15 @@ endif;
 						modalClose( alpha );
 					}, 10000 );
 				}
+				
+				// set contact info for newsletter sign-up
+				function contactSent(){
+				    jQuery.removeCookie( "contactForm-name" );
+				    jQuery.removeCookie( "contactForm-email" );
+				    jQuery.cookie( 'contactForm-name', jQuery( '#contact-name' ).val(), { expires: 1, path: '/' } );
+				    jQuery.cookie( 'contactForm-email', jQuery( '#contact-email' ).val(), { expires: 1, path: '/' } );
+				    window.location = "/thank-you/";
+				}
 			</script>
 		</li>
 		<?php if ($community == "move-in-ready" || $community == ""){ ?>

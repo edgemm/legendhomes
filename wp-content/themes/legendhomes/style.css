@@ -643,6 +643,7 @@ padding-bottom: 0px;
 .mir_img {
 width: 180px;
 height: 140px;
+position: relative;
 overflow: hidden;
 margin-bottom: 4px;
 }
@@ -655,6 +656,11 @@ text-decoration: none;
 }
 .mir_img a img {
 border: 0px;
+}
+.mir_img .mir_img_sold {
+position: absolute;
+top: 0;
+left: 0;
 }
 .red {
 font-style: italic;
@@ -1312,7 +1318,7 @@ margin-bottom: 30px;
 .gq-reviews > a:nth-of-type(2n) + .gq-comment-content { margin-bottom: 5px; }
 .gq-hr:nth-of-type(n) { display: none !important; }
 
-/* ----- LANDING PAGE - 5/28/14 - gfh ----- */
+/* ----- LANDING PAGE ----- */
 
 .landing #menu.headmeta {
 height: 57px;
@@ -1349,14 +1355,14 @@ font-style: italic;
 text-align: center;
 }
 
-/* ----- MOBILE STYLES - 7/23/14 - gfh ----- */
+/* ----- MOBILE STYLES ----- */
 
 .mbl-neighborhood-mir,
 .mbl-neighborhood-img {
 	display: none;
 }
 
-/* ----- VIDEO PAGE - 7/23/14 - gfh ----- */
+/* ----- VIDEO PAGE ----- */
 
 h3.video-heading a {
 	color: #4d6345;
@@ -1399,6 +1405,24 @@ h3.video-heading a {
 }
 .social-btn-item:first-child {
     padding-left: 0;
+}
+
+/* ----- FORMS ----- */
+
+.form-input {
+	margin-right: 10px;
+	padding: 7px 8px;
+	position: relative;
+	top: 1px;
+	font-family: Arial, Helvetica, 'Helvetica Neue', Verdana, sans-serif !important;
+	font-size: 14px;
+	border: 1px solid #bbb;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
 
 
@@ -1535,7 +1559,8 @@ h3.video-heading a {
     height: 1.5em;
     margin: 2px 0 5px;
 }
-.modal-contact-agent .wpcf7-submit {
+.modal-contact-agent .wpcf7-submit,
+.wpcf7-submit-strx {
     margin: 10px 0;
     padding: 8px 14px 9px;
     display: inline-block;

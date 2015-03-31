@@ -28,26 +28,77 @@ foreach ($options as $value) {
 		<div id="mirslide">
 				<ul id="mirslider" class="jcarousel-skin-tango">
 					<?php
+					$count = 0;
 					$newsq = new WP_Query('cat='.$lh_mir.'&showposts=100');
 					if ($newsq->have_posts()) : while ($newsq->have_posts()) : $newsq->the_post();
-						$img = get_post_meta($post->ID,'home-image',true);
-						$tag = get_post_meta($post->ID,'homepage-tagline',true);
 						$price = get_post_meta($post->ID,'homepage-price',true);
-						$comm = get_post_meta($post->ID,'community',true);
 						
-						if (strpos($price,'SOLD') !== false) {echo '';} else if (strpos($price,'sold') !== false) {echo '';} else { ?>
+						if ( ( strpos($price,'SOLD' ) !== false) || ( strpos($price,'sold') !== false ) ) { echo ''; } else {
+							$count++;
+							$img = get_post_meta($post->ID,'home-image',true);
+							$tag = get_post_meta($post->ID,'homepage-tagline',true);
+							$comm = get_post_meta($post->ID,'community',true);
+					?>
 						
-                        <li><div class="mir"><!-- <?php echo $lh_mir; ?> -->
+					<li>
+						<div class="mir">
 							<h4><?php the_title() ?></h4>
-							<div class="mir_img"><a href="<?php the_permalink() ?>"><img src="<?php echo $img; ?>" width="180" height="140" /></a></div>
+							<div class="mir_img">
+								<a href="<?php the_permalink() ?>">
+									<img src="<?php echo $img; ?>" width="180" height="140" />
+									<?php if( get_field( 'show_sold_banner' ) ) : ?>
+									<img src="/wp-content/themes/legendhomes/images/LH-SoldBanner-small.png" class="mir_img_sold" alt="" />
+									<?php endif; ?>
+								</a>
+							</div>
 							<p class="nopad"><?php echo $tag ?> <span class="red"><?php echo $price ?></span></p>
 							<?php if ($comm !== '') { ?><p class="nopad">at <?php echo $comm ?></p><?php } ?>
 		
 							<h4><a href="<?php the_permalink() ?>">View now &raquo;</a></h4>
-						</div></li>
+						</div>
+					</li>
 					<?php } ?>
-					<?php endwhile; endif; wp_reset_query(); ?>			
-			</ul>
+					<?php endwhile; endif; wp_reset_query(); ?>
+					<?php // new query if $count < 4
+					if( $count < 4 ) :
+						$sold_count = 4 - $count;
+						$sold_args = array (
+							'cat'                    => $lh_mir,
+							'posts_per_page'         => $sold_count,
+							'meta_query'             => array(
+								array(
+									'key'       => 'show_sold_banner',
+									'value'     => true,
+								)
+							)
+						);
+						$soldq = new WP_Query( $sold_args );
+
+						if ($soldq->have_posts()) : while ($soldq->have_posts()) : $soldq->the_post();
+							$price = get_post_meta($post->ID,'homepage-price',true);
+							$img = get_post_meta($post->ID,'home-image',true);
+							$tag = get_post_meta($post->ID,'homepage-tagline',true);
+							$comm = get_post_meta($post->ID,'community',true);
+					?>
+					<li>
+						<div class="mir">
+							<h4><?php the_title() ?></h4>
+							<div class="mir_img">
+								<a href="<?php the_permalink() ?>">
+									<img src="<?php echo $img; ?>" width="180" height="140" />
+									<img src="/wp-content/themes/legendhomes/images/LH-SoldBanner-small.png" class="mir_img_sold" alt="" />
+								</a>
+							</div>
+							<p class="nopad"><?php echo $tag ?> <span class="red"><?php echo $price ?></span></p>
+							<?php if ($comm !== '') { ?><p class="nopad">at <?php echo $comm ?></p><?php } ?>
+		
+							<h4><a href="<?php the_permalink() ?>">View now &raquo;</a></h4>
+						</div>
+					</li>
+
+					<?php endwhile; endif; wp_reset_query(); ?>
+					<?php endif; ?>
+				</ul>
 		</div>
 			</div>
 			<div id="leadout">

@@ -37,8 +37,19 @@ $hide_sold = (get_field('hide_sold') ? true : false);
 					<?php wp_reset_query(); ?>
 
 					<?php 
-					if ($type == "move-in-ready") { // get all posts from categories to ensure latest appear - gfh
-						$wpQuery = new WP_Query('cat=15,35,28,42,49,247&meta_key=community&orderby=meta_value&order=DESC&showposts=-1');
+					if ($type == "move-in-ready") {
+						$args = array(
+							'post_type'	=> 'post',
+							'cat'		=> 655,
+							'meta_key'	=> 'show_sold_banner',
+							'orderby'      => array(
+								'meta_value' => 'ASC',
+								'' => ''
+							),
+							'order' => 'ASC',
+							'posts_per_page' => -1
+						);
+						$wpQuery = new WP_Query( $args );
 					} else {
 						$wpQuery = new WP_Query('category_name='.get_community().'-'.$type);
 					}
