@@ -285,11 +285,14 @@ class ScrollGallery {
 														$outI .='<div>'.stripslashes($picture["desc"]).'</div>';
 												}
 												if($adjustImagesize==true){
-													/*$imgsize   = @getimagesize($picture["img"]);//0=width 1=height
-													$imgwidth  = $imgsize[0];
-													$imgheight = $imgsize[1];*/
 													$imgwidth  = $picture["width"];
-													$imgheight = $picture["height"];
+                                                                                                        $imgheight = $picture["height"];
+                                                                                                       
+                                                                                                        if ($imgwidth == null || $imgheight == null){
+                                                                                                                $imgsize   = @getimagesize($picture["img"]);//0=width 1=height
+                                                                                                                $imgwidth  = $imgsize[0];
+                                                                                                                $imgheight = $imgsize[1];
+                                                                                                        }
 													if($width>$height){//landscape
 														//get new size
 														$newimageheight=$height;
