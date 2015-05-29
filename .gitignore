@@ -13,7 +13,7 @@ wp-content/gallery
 
 # wordpress specific
 wp-config.php
-wp-content/plugins
+wp-content/plugins/*
 wp-content/uploads
 wp-content/themes/twentyten
 wp-content/themes/twentyeleven
@@ -35,8 +35,10 @@ wp-content/wp-cache-config.php
 wp-content/cache/*
 wp-content/cache/supercache/*
 
-#ignore exceptions
-!/wp-content/plugins/nextgen-scrollgallery/nggScrollGallery.php
+# ignore exceptions
+!wp-content/plugins/nextgen-scrollgallery/
+wp-content/plugins/nextgen-scrollgallery/*
+!wp-content/plugins/nextgen-scrollgallery/nggScrollGallery.php
 
 # wpengine specific
 .smushit-status
