@@ -1,3 +1,15 @@
+<?php
+
+// manual redirect to fix plugin conflict with updated WP core
+$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+if( $url == "http://legendhomes.com/" || $url == "http://www.legendhomes.com/" ) :
+
+	header( 'Location: http://legendhomes.com/find-your-home-mobile/?t=t' ) ;
+
+endif;
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 <head profile="http://gmpg.org/xfn/11">
