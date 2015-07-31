@@ -60,6 +60,10 @@ function modalRevealOmega() {
 
 // *** CONTACT FORM
 // auto-fill
+$( 'form.wpcf7-form' ).find( "input, select" ).change(function(){
+    var id = $(this).attr( "id" );
+    $( "#autoFill-" + id ).val( $(this).val() );
+});
 
 $( ".form-autoFill" ).each(function(){
 
@@ -71,6 +75,9 @@ $( ".form-autoFill" ).each(function(){
 	}
 
 });
+
+console.log( "name: " + $.cookie( "contactForm-name" ) );
+console.log( "email: " + $.cookie( "contactForm-email" ) );
 
 
 })(jQuery);

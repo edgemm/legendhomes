@@ -36,22 +36,24 @@ $hide_sold = (get_field('hide_sold') ? true : false);
 					<?php the_content() ?>
 					<?php wp_reset_query(); ?>
 
-					<?php 
+					<?php
+					// arguments for query. category added based on $type
+					$args = array(
+						'post_type'	=> 'post',
+						'meta_key'	=> 'show_sold_banner',
+						'orderby'      => array(
+							'meta_value' => 'ASC',
+							'' => ''
+						),
+						'order' => 'ASC',
+						'posts_per_page' => -1
+					);
 					if ($type == "move-in-ready") {
-						$args = array(
-							'post_type'	=> 'post',
-							'cat'		=> 655,
-							'meta_key'	=> 'show_sold_banner',
-							'orderby'      => array(
-								'meta_value' => 'ASC',
-								'' => ''
-							),
-							'order' => 'ASC',
-							'posts_per_page' => -1
-						);
+						$args['cat'] = 655;
 						$wpQuery = new WP_Query( $args );
 					} else {
-						$wpQuery = new WP_Query('category_name='.get_community().'-'.$type);
+						$args['category_name'] = get_community() . '-' . $type;
+						$wpQuery = new WP_Query( $args );
 					}
 		
 					if ($wpQuery->have_posts()) {

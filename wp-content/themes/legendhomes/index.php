@@ -20,8 +20,9 @@ foreach ($options as $value) {
            </div>
 	   <div class="home-desc">
 		<h2>New Home Builders in Oregon</h2>
-		<p>Legend Homes is committed to providing the best home value and the best home buying experience for the buyers of our new homes in Portland and across Oregon. Better plans, more standard features, a strong focus on energy conservation and efficiency and state-of-the art home building practices are what drive us to be the very best.</p> 
-		<p>Legend Home’s mission as new home builders is to be the leader in quality, value and community through integrity, innovation and pride. Legend provides homebuyers with the personalized service and attention they deserve as well as with new homes built to last through generations.</p>
+		<p>Legend Homes is committed to providing the best home value and the best home buying experience you can imagine in the Portland area and across Northwest Oregon. Better plans, more standard features, a strong focus on energy efficiency and conservation as well as state-of-the-art home building practices are just part of what make Legend's new-contsruction homes some of best in all of Oregon.</p> 
+		<p>Our mission as new home builders is to be the leader in quality, value and community through integrity, innovation and pride. Legend provides you as the homebuyer the personalized service and attention to detail that you deserve with a selection of beautifully-crafted new home plans built to last through generations and our own <a href="/customer-care/warranty-requests/" title="Owning a quality-built Legend home includes a much longer warranty than most new homes! Find out more...">3-5-10 new home warranty</a> that's one of the homebuilding industry's best.</p>
+        <p><strong>Peace of Mind. We build it into every Legend Home.</strong></p>
 	   </div>
 			<div id="mirs-smc">
 			<h2>Move-In Ready Homes</h2>
