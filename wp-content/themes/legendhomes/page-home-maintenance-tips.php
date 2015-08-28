@@ -35,7 +35,15 @@ else {$type = "home-maintenance-tips";}
 		<div class="video-blogroll">
 		<?php 
 			if ($type == "home-maintenance-tips") {
-				$wpQuery = new WP_Query('cat=570&orderby=date&order=DESC&showposts=10');
+				$args = array(
+					'post_type'		=> 'post',
+					'post_status'		=> 'publish',
+					'posts_per_page'	=> -1,
+					'meta_key'		=> 'post_sort_order',
+					'orderby'		=> 'meta_value_num',
+					'order'			=> 'ASC'
+				);
+				$wpQuery = new WP_Query( $args );
 			} else {
 				$wpQuery = new WP_Query('category_name='.$type.'&orderby=date&order=DESC&showposts=20');
 			}
