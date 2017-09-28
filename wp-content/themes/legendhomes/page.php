@@ -1,107 +1,158 @@
-<?php
-$post = get_post($post->ID);
+<?php get_header(); ?>
 
-?>
+	<main class="main clr" role="main">
+	
+	<?php if (have_posts()): while (have_posts()) : the_post(); ?>	
 
+		<article id="post-<?php the_ID(); ?>" <?php post_class( array( 'content post-homes' ) ); ?>>
+		
+			<header class="container clr">
+				
+				<div class="post-gallery">
+	
+				<?
 
-<?php get_header() ?>
-
-
-
-
-<?php //Determines the parrent page to pull in Heading/Sub Heading
-if ($post->post_parent != 0){
-	if (get_post_meta($post->ID,'Heading-Title',true) != "") {
-		$headID = $post->ID;
-	} else {$headID = $post->post_parent;}
-} else {$headID = $post->ID;}
-?>
-
-	<div class="headmeta">			
-		<h2><span><?php echo get_post_meta($headID,'Heading-Title',true); ?></span></h2>
-		<div class="headtxtbar"><?php echo get_post_meta($headID,'Heading-SubTitle',true); ?></div>		
-	</div>		
-
-	<div id="container">
-		<div class="headimgfloat"><?php the_post_thumbnail(); ?></div>
-		<div id="content">	
-							
-			<?php the_post() ?>
-
-
-			<div id="post-<?php the_ID() ?>" class="<?php sandbox_post_class() ?>">
-				<h3 class="entry-title"><?php the_title() ?></h3>
-				<div class="entry-content">
-					<?php // Used for /earthsmart/features/
-						if (in_array("features", explode("/", $_SERVER["REQUEST_URI"]))) { ?>
-							<script type="text/javascript" src="<?php bloginfo('template_directory') ?>/js/jquery-qtip/jquery.qtip-1.0.0-rc3.min.js"></script>
-							<script class="qtipBox" type="text/javascript">
-							// Create the tooltips only on document load
-							$(document).ready(function() 
-							{
-							   // Notice the use of the each() method to acquire access to each elements attributes
-							   $('#content a[tooltip]').each(function()
-							   {
-								   	$img = '<img src="<?php bloginfo('template_directory') ?>/images/interactiveFlyer/'+$(this).attr('tooltip')+'" />';
-							      $(this).qtip(
-							      {        	 
-							         content: $img,
-							         position: {
-							      			corner: {
-							         			target: 'top',
-							         			tooltip: 'bottomLeft'
-							      			}
-							   			 },
-							         show: { 
-							            when: 'click', 
-							            solo: true // Only show one tooltip at a time
-							         },
-							         hide: 'unfocus',
-							         style: {
-							            name: 'green', // Give it the preset dark style
-							            width: 570,
-							      			padding: 5,
-							      			textAlign: 'center',
-							            border: {
-							               width: 0, 
-							               radius: 4 
-							            }, 
-							            tip: true
-							         }
-							      });
-							   });
-							});
-							</script>
-							<style type="text/css">
-								#mouseover {cursor:pointer; cursor:hand;}
-							</style>							
-						<?php } ?> 								
-					
-					<?php the_content() ?>
-					
-					<?php // Outputs a map if 'google-map' is set
-					  $gmap = get_post_meta($post->ID,'google-map',true);
-						if ($gmap != "") {echo '<p>'.$gmap.'</p>';}
-					?> 
+				if( has_post_thumbnail() ) :
+				
+				$thmb_attr = array(
+					'class' => 'attachment-$size gallery-spotlight-img'
+				);
+				
+				?>
+					<div class="gallery-spotlight">
+						<?php the_post_thumbnail( 'large', $thmb_attr ); ?>
+					</div>
+				<? endif; ?>
 
 				</div>
-			</div><!-- .post -->
 
-		</div><!-- #content -->
-	</div><!-- #container -->
-	
-<div id="sidebar">
-	
-<?php //Custom Sidebars Used - determined based on URL
-		 if (in_array("find-your-home", explode("/", $_SERVER["REQUEST_URI"]))) {$sidebar="find-your-home";}
-else if (in_array("earthsmart", explode("/", $_SERVER["REQUEST_URI"]))) {$sidebar="earthsmart";}		
-else if (in_array("design-center", explode("/", $_SERVER["REQUEST_URI"]))) {$sidebar="design-center";} 
-else if (in_array("home-finance", explode("/", $_SERVER["REQUEST_URI"]))) {$sidebar="home-finance";}
-else if (in_array("customer-care", explode("/", $_SERVER["REQUEST_URI"]))) {$sidebar="customer-care";}
-else if (in_array("legend-villebois-releases-new-chateau-collection-homes", explode("/", $_SERVER["REQUEST_URI"]))) {$sidebar="villebois-contact";}
-else {$sidebar = "";}
-get_sidebar($sidebar);
-?>
-<!-- the sidebar in use is <?php echo $sidebar; ?> -->
-</div>
-<?php get_footer() ?>
+				<div class="header-headline">
+
+					<h1 class="post-headline"><?php the_title(); ?></h1>
+
+					<p class="post-subheadline highlight<?php echo ( get_field( 'post_subheadline_highlight' ) ) ? ' focus' : ''; ?>"><?php the_field( 'post_subheadline' ); ?></p>
+				
+				</div>
+
+			</header>
+
+			<section class="content container clr">
+
+				<?php the_content(); ?>
+
+			</section>
+
+			<?php
+
+			if( have_rows( 'section' ) ) :
+
+				while( have_rows( 'section' ) ) : the_row();
+
+					$section_title = get_sub_field( 'title' );
+					$section_type = get_sub_field( 'type' );
+					$section_content = get_sub_field( 'content' );
+					
+					$section_slug = str_replace( ' ', '-', strtolower( $section_title ) );
+					$section_class = '';
+					$headline_class = '';
+
+					$gmaps_addr = str_replace( ' ', '+', $addr_street . '+' . $addr_city . '+OR+' . $addr_zip );
+
+					switch( $section_type ) :
+					
+						case 'no_headline':
+							$section_class = '';
+							break;
+						case 'collapse':
+							$section_class = 'section-collapse';
+							$headline_class = 'headline-collapse';
+							break;
+						case 'collapse_alt':
+							$section_class = 'section-collapse section-alt';
+							$headline_class = 'headline-collapse';
+							break;
+						case 'location':
+							$section_class = 'gmap';
+							break;
+						case 'location_headline':
+							$section_class = 'section-alt';
+							$headline_class = 'headline-icon-auto';
+							break;
+						case 'collection':
+							$section_class = 'section-alt';
+							$headline_class = 'headline-icon-house';
+							break;
+						case 'form':
+							$headline_class = 'headline-icon-envelope';
+							break;
+						case 'alternate':
+							$section_class = 'section-alt';
+							break;
+						case 'default':
+							$section_class = '';
+							break;
+						default:
+							$section_class = '';
+							$headline_class = '';
+
+					endswitch;
+
+			?>
+			<section class="section-<?php echo $section_slug . ' ' . $section_class; ?> clr">
+
+				<h2 class="section-headline <?php echo $headline_class; ?>">
+					<span class="container">
+					<?php
+
+					if ( $section_anchor ) echo '<a class="headline-anchor" name="' . $section_anchor . '">';
+					echo $section_title;
+					if ( $section_anchor ) echo '</a>';
+
+					?>
+					</span>
+				</h2>
+
+				<?php if( $section_type != 'location' ) : ?>
+
+				<div class="container clr">
+
+					<?php echo $section_content; ?>
+
+				</div>
+				
+					<?php if( $section_type == 'location_headline' ) : ?>
+
+				<div class="gmap container">
+
+					<iframe class="gmap-embed" width="600" height="348" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAFHmVFJvu5em9z2LKlXNXwf-sIEckQ0MY&q=<?php echo $gmaps_addr; ?>" allowfullscreen>
+</iframe>
+
+				</div>
+				
+					<?php endif; ?>
+				
+				<?php else : ?>
+
+				<iframe class="gmap-embed" width="600" height="348" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAFHmVFJvu5em9z2LKlXNXwf-sIEckQ0MY&q=<?php echo $gmaps_addr; ?>" allowfullscreen>
+</iframe>
+
+				<?php endif; ?>
+
+			</section>
+			<?php
+
+				endwhile;
+
+			endif;
+
+			?>
+
+		</article>
+
+	<?php endwhile; ?>
+
+	<?php endif; ?>
+
+	</main>
+
+<?php get_footer(); ?>

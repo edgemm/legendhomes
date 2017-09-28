@@ -1,61 +1,88 @@
-<?php /* Template Name: News & Events */ ?>
-<?php get_header() ?>
+<?php // Template Name: News & Events ?>
+<?php get_header(); ?>
 
-<?php //Determines the parrent page to pull in Heading/Sub Heading
-if ($post->post_parent != 0){
-	if (get_post_meta($post->ID,'Heading-Title',true) != "") {
-		$headID = $post->ID;
-	} else {$headID = $post->post_parent;}
-} else {$headID = $post->ID;}
-?>
+	<main class="main clr" role="main">
 
-<?php //Determines what type of news category
-$url = explode("/", $_SERVER["REQUEST_URI"]);
-if ($url[2] != ""){$type = $url[2];}
-else {$type = "news";}
-?>
+		<section <?php post_class( array( 'content' ) ); ?>>
+		
+			<header class="container clr">
 
+				<div class="header-headline container">
 
+					<h1 class="post-headline"><?php the_title(); ?></h1>
 
-	<div class="headmeta">			
-		<h2><span><?php echo get_post_meta($headID,'Heading-Title',true); ?></span></h2>
-		<div class="headtxtbar"><?php echo get_post_meta($headID,'Heading-SubTitle',true); ?></div>		
-	</div>		
+					<p class="post-subheadline highlight<?php echo ( get_field( 'post_subheadline_highlight' ) ) ? ' focus' : ''; ?>"><?php the_field( 'post_subheadline' ); ?></p>
 
-	<div id="container">
-		<div class="headimgfloat"><?php the_post_thumbnail(); ?></div>
-		<div id="content">	
-
-		<?php 
-			if ($type == "news") {
-				$wpQuery = new WP_Query('cat=81,97,57,89&orderby=date&order=DESC&showposts=5');
-			} else {
-				$wpQuery = new WP_Query('category_name='.$type.'&orderby=date&order=DESC&showposts=20');
-			}
-
-		if ($wpQuery->have_posts()) {
-			while ($wpQuery->have_posts()) {
-				$wpQuery->the_post();
-				?>
-					<h4 class="entry-title"><a href="<?php echo the_permalink(); ?>" style="color:#4D6345;"><?php the_title() ?></a></h4>
-					<div class="entry-content">
-						<?php the_excerpt() ?>
-						<p><a href="<?php echo the_permalink() ?>">Read More</a><?php edit_post_link() ?></p>
-						
 				</div>
-				<?				
-			}
+
+			</header>
+
+			<div class="container clr">
+				<?php
+
+				if (have_posts()) : while (have_posts()) : the_post();
+
+				the_content();
+				
+				endwhile;
+				
+				endif;
+				
+				$categories_args = array(
+					'category__in'		=> array( 28, 29, 30, 31, 32 )
+				);
+				
+				$categories_query = new WP_Query( $categories_args );
+				
+				$i = 1;
+
+				if ( $categories_query->have_posts() ): while ( $categories_query->have_posts() ) : $categories_query->the_post();
+
+				$classes = 'columns eight ';
+				$classes .= ( $i % 2 == 0 ) ? 'omega' : 'alpha';
+
+				?>
+
+				<article id="post-<?php the_ID(); ?>" <?php post_class( 'category-post ' . $classes ); ?>>
+
+					<?php if ( has_post_thumbnail()) : ?>
+						<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>">
+							<?php the_post_thumbnail( 'medium' ); ?>
+						</a>
+					<?php
+
+					elseif( get_video_shortcode() ) :
+
+						echo get_video_shortcode();
+
+					endif;
+
+					?>
+				
+					<h1 class="entry-title">
+						<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
+					</h1>
+					
+					<?php edgemm_excerpt( 'edgemm_custom_post' ); ?>
+				
+				</article>
+				
+				<?php
+				
+				$i++;
+				
+				endwhile;
+				
+				endif;
+				
+				wp_reset_postdata();
+				
+				?>
 			
-		}
-		?>	
-        
-        </div><!-- #content -->
-	</div><!-- #container -->
-	
-<div id="sidebar">
-	
-<?php //Custom Sidebars Used - determined based on URL
-get_sidebar();
-?>		
-</div>
-<?php get_footer() ?>
+			</div>
+
+		</section>
+
+	</main>
+
+<?php get_footer(); ?>

@@ -1,83 +1,240 @@
-(function($){
-
-// *** MODALS
-var mActive = "target"; // class name for active modal
-var mAlpha = "complete"; // class name for completed front-page of modal
-
-// add agent contact email to hidden field in modal ( m )
-function addAgentEmail( t, m ){ // t: element to garner contact address
-	var eLoc = t.attr( "data-eLoc" );
-	var eDom = t.attr( "data-eDom" );
-
-	m.find( ".contact-agent" ).attr( "value", eLoc + "@" + eDom );
-}
-
-// vertically center based on modal height
-$( ".modal-container" ).each(function(){
-	var c = $( this ).children( ".modal-content" );
-	var h = c.outerHeight();
+(function ($, root, undefined) {
 	
-	c.css({ "margin-top": "-" + ( h / 2 ) + "px" });
+$(function () {
+
+/****************************
+		NAVIGATION
+****************************/
+
+// toggle nav items with submenus
+$( '.menu-item-has-children > .menu-link' ).click(function(e){
+
+		e.preventDefault();
+		
+		var p = $( this ).parent();
+	
+		$( '.menu-item-has-children' ).not( p ).removeClass( 'start-open' ).addClass( 'hidden' );
+		
+		p.toggleClass( 'hidden' );
+
 });
 
-// display modals
-$( ".trig-modal" ).click(function(e){
+
+/****************************
+		ANIMATIONS
+****************************/
+
+// set height for hidden/collapsed elements to open to
+function getHeight( t, a ) {
+
+	var h = 0,
+		i;
+
+	t.children().each( function() {
+
+		i = $( this ).outerHeight( true );
+
+		h = h + i;
+
+	});
+
+	t.attr( 'data-height', h );
+
+}
+
+
+/****************************
+		FORMS
+****************************/
+
+// placeholder attribute support for <= IE9
+// https://github.com/mathiasbynens/jquery-placeholder
+$( 'input, textarea' ).placeholder();
+
+
+/****************************
+		CONTACT AGENT
+****************************/
+
+$( '.toggle-form' ).click(function(e) {
+
 	e.preventDefault();
-	var t = $( this );
-	var modalID = t.attr( "data-modal" );
-	var modal = $( "[data-modalID=" + modalID + "]" );
-	
-	$( ".modal-container" ).removeClass( mActive );
-	modal.addClass( mActive );
-	
-	if ( t.hasClass( "modal-contact-agent" ) ) {
-		addAgentEmail( t, modal );
-	}
+
+	var t = $( this ),
+		i = t.attr( 'data-toggle-id' ),
+		a = t.attr( 'data-agent' ),
+		h = $( '#' + i );
+
+	h.css( 'height', function(){
+		return h.attr( 'data-height' ) + "px";
+	});
+	h.removeClass( 'hidden' );
+
 });
 
-// hide modals
-function modalClose( m ) {
-	modal = m.parents( ".modal-container" );
-	modal.removeClass( mActive );
-	modal.find( ".modal-alpha" ).removeClass( mAlpha );
-	modal.find( ".wpcf7-response-output" ).hide();
-}
+/****************************
+		SOCIAL MEDIA
+****************************/
 
-$( ".modal-close" ).click(function(e){
+// sharing buttons
+$( '.share-facebook, .share-twitter' ).click(function(e){
+
 	e.preventDefault();
-	modalClose( $( this ) );	
+	
+	window.open( $( this ).attr( 'href' ), '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600' );
+
 });
 
-// hide modal first page, show back page then close
-function modalRevealOmega() {
-	var alpha = $( ".modal-container." + mActive ).find( ".modal-alpha" );
-	alpha.addClass( "complete" );
-	var closeModal = window.setTimeout( function(){
-		modalClose( alpha );
-	}, 10000 );
-}
+/****************************
+		SHARE HOME
+****************************/
 
+// sharing buttons
+$( '.js-share-home' ).click(function(e){
 
-// *** CONTACT FORM
-// auto-fill
-$( 'form.wpcf7-form' ).find( "input, select" ).change(function(){
-    var id = $(this).attr( "id" );
-    $( "#autoFill-" + id ).val( $(this).val() );
+	e.preventDefault();
+
+	var $home = $(this).parents( '.columns' );
+	var $modal = $( '.form-share-home' ).parents( '.share-homes' ).find( '.modal' );
+
+	$modal.find( '.modal-field-container' ).find( 'input, textarea' ).val( '' );
+
+	var specs = [];
+
+	specs['url'] = $home.find( '.home-url' ).attr( 'href' );
+	specs['img'] = $home.find( '.home-url' ).find( 'img' ).attr( 'src' ).replace( '550x363', 'sharing' );
+	specs['addr'] = $home.attr( 'data-addr' );
+	specs['price'] = $home.find( '.related-home-price' ).text().trim();
+	specs['beds'] = $home.attr( 'data-beds' );
+	specs['baths'] = $home.attr( 'data-baths' );
+	specs['sqft'] = $home.attr( 'data-sqft' ).toLocaleString();
+
+	for ( var k in specs ) {
+
+		$modal.find( 'input[name="share-home-' + k + '"]' ).val( specs[k] );
+
+	}
+	
+	$modal.addClass( 'show' );
+
 });
 
-$( ".form-autoFill" ).each(function(){
+/****************************
+		MODALS
+****************************/
 
-	var f = $(this).attr( "data-autoFill" );
+// sharing buttons
+$( '.js-modal-close' ).click(function(e){
 
-	if ( f ) {
-		var v = $.cookie( f );
-		if ( v ) $(this).val( v );
+	e.preventDefault();
+
+	$(this).parents( '.modal' ).removeClass( 'show' );
+
+});
+
+
+/****************************
+		COLLAPSING
+****************************/
+
+var hash = window.location.hash.substring(1);
+
+$( '.section-collapse' ).find( '.headline-anchor' ).each(function(){
+
+	if( $( this ).attr( 'name' ) == hash ) {
+
+		var p = $( this ).parents( '.section-collapse' );
+
+		p.addClass( 'anchor-target' );
+		
+		setTimeout(function() {
+			window.scrollTo( 0, p.offset().top );
+		}, 1);
+
 	}
 
+});	
+
+$( '.section-collapse' ).not( '.anchor-target' ).addClass( 'collapse' );
+
+function collapseSetHeight( t ) {
+
+	var p = t.parents( '.section-collapse' ),
+		v = '';
+
+	if ( p.attr( 'data-height' ) ) {
+
+		v = p.attr( 'data-height' );;
+
+	} else {
+
+		var h = $( this ).outerHeight( true ),
+			c = p.children( '.container' ).outerHeight( true );
+
+		v = c + h;
+
+	}
+
+	p.css( 'height', v + 'px' );
+
+}
+
+$( '.headline-collapse' ).click(function(){
+
+	collapseSetHeight( $( this ) );
+
+	$( this ).parent().toggleClass( 'collapse' );
+
 });
 
-console.log( "name: " + $.cookie( "contactForm-name" ) );
-console.log( "email: " + $.cookie( "contactForm-email" ) );
 
+/****************************
+		SIZING
+****************************/
 
-})(jQuery);
+function screenChange() {
+
+	// set height of submenus
+	$( '.sub-menu' ).each(function(){
+	
+		var t = $( this );
+	
+		getHeight( t );
+	
+		t.css( 'height', function(){
+			return t.attr( 'data-height' ) + 'px';
+		});
+	
+	});
+
+	// gallery
+	$( '.gallery-spotlight' ).css( 'height', 'auto' );
+
+	// collapsing sections
+	$( '.section-collapse, .toggle-hidden' ).each(function(){
+	
+		getHeight( $( this ) );
+	
+	});
+	
+	$( '.headline-collapse' ).each(function(){
+
+		collapseSetHeight( $( this ) );
+
+	});
+
+}
+
+$( window ).load(function(){
+
+	screenChange();
+
+});
+$( window ).resize(function(){ screenChange(); });
+window.addEventListener( "orientationchange", function() {
+	screenChange();
+}, false);
+
+});
+
+})(jQuery, this);

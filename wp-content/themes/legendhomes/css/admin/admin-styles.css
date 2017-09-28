@@ -1,0 +1,21 @@
+.btn-edgemm {
+    width: 100%;
+    padding: 0 1em;
+    display: block;
+    font-size: 1.25em;
+    font-weight: bold;
+    line-height: 2.25em;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    background: #1b9b06;
+    color: #fff;
+}
+.btn-edgemm:hover {
+    background: #7a93a5;
+}
+.pull-status {
+    text-align: center;
+}

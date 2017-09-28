@@ -1,60 +1,73 @@
-<?php get_header() ?>
+<?php get_header(); ?>
 
-	<div id="container">
-		<div id="content">
+	<main class="main clr" role="main">
 
-<?php if ( have_posts() ) : ?>
+		<section <?php post_class( array( 'content category' ) ); ?>>
+		
+			<header class="container clr">
 
-		<h2 class="page-title"><?php _e( 'Search Results for:', 'sandbox' ) ?> <span><?php the_search_query() ?></span></h2>
+				<div class="header-headline container">
 
-			<div id="nav-above" class="navigation">
-				<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&laquo;</span> Older results', 'sandbox' ) ) ?></div>
-				<div class="nav-next"><?php previous_posts_link( __( 'Newer results <span class="meta-nav">&raquo;</span>', 'sandbox' ) ) ?></div>
+					<h1 class="post-headline"><?php echo sprintf( __( '%s Search Results for ', 'html5blank' ), $wp_query->found_posts ); echo '"' . get_search_query() . '"'; ?></h1>
+				
+				</div>
+
+			</header>
+
+			<div class="container clear">
+
+				<?php if (have_posts()): while (have_posts()) : the_post(); ?>
+
+				<article id="post-<?php the_ID(); ?>" <?php post_class( 'search-post columns sixteen' ); ?>>
+				
+					<h1 class="entry-title">
+						<a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
+					</h1>
+					
+					<?php edgemm_excerpt( 'edgemm_custom_post' ); ?>
+				
+				</article>
+				
+				<?php
+				
+				endwhile;
+				
+				endif;
+				
+				?>
+				
+				<div class="pagination">
+					<?php edgemm_pagination(); ?>
+				</div>
+			
 			</div>
 
-<?php while ( have_posts() ) : the_post() ?>
+		</section>
 
-			<div id="post-<?php the_ID() ?>" class="<?php sandbox_post_class() ?>">
-				<h3 class="entry-title"><a href="<?php the_permalink() ?>" title="<?php printf( __( 'Permalink to %s', 'sandbox' ), the_title_attribute('echo=0') ) ?>" rel="bookmark"><?php the_title() ?></a></h3>
-				<div class="entry-content">
-<?php the_excerpt( __( 'Read More <span class="meta-nav">&raquo;</span>', 'sandbox' ) ) ?>
+	</main>
+		
+		<section id="content">
 
-				</div>
+			<div class="container clear">
 
-<?php if ( $post->post_type == 'post' ) { ?>
-				<div class="entry-meta">
+			<article <?php post_class( array( 'sixteen', 'columns' ) ); ?>>
 
-<?php edit_post_link( __( 'Edit', 'sandbox' ), "\t\t\t\t\t<span class=\"edit-link\">", "</span>\n\t\t\t\t\t\n" ) ?>
-				</div>
-<?php } ?>
+				<header>
+					<h1 class="entry-title"></h1>
+				</header>
 
-			</div><!-- .post -->
+				<?php get_template_part('loop'); ?>
+	
+				<?php get_template_part('pagination'); ?>
 
-<?php endwhile; ?>
+			</article>
 
-			<div id="nav-below" class="navigation">
-				<div class="nav-previous"><?php next_posts_link( __( '<span class="meta-nav">&laquo;</span> Older results', 'sandbox' ) ) ?></div>
-				<div class="nav-next"><?php previous_posts_link( __( 'Newer results <span class="meta-nav">&raquo;</span>', 'sandbox' ) ) ?></div>
 			</div>
+			<!-- /.container -->
 
-<?php else : ?>
+		</section>
+		<!-- /#conent -->
 
-			<div id="post-0" class="post no-results not-found">
-				<h2 class="entry-title"><?php _e( 'Nothing Found', 'sandbox' ) ?></h2>
-				<div class="entry-content">
-					<p><?php _e( 'Sorry, but nothing matched your search criteria. Please try again with some different keywords.', 'sandbox' ) ?></p>
-				</div>
-				<form id="searchform-no-results" class="blog-search" method="get" action="<?php bloginfo('home') ?>">
-					<div>
-						<input id="s-no-results" name="s" class="text" type="text" value="<?php the_search_query() ?>" size="40" />
-						<input class="button" type="submit" value="<?php _e( 'Find', 'sandbox' ) ?>" />
-					</div>
-				</form>
-			</div><!-- .post -->
+	</main>
 
-<?php endif; ?>
-
-		</div><!-- #content -->
-	</div><!-- #container -->
-
-<?php get_footer() ?>
+<?php get_footer(); ?>
